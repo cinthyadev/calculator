@@ -1,0 +1,29 @@
+:root {
+    --display: rgb(72, 66, 63);
+    --clearButton: rgb(87, 82, 79);
+    --numbers: rgb(112, 107, 104);
+    --operations: rgb(253, 141, 14);
+
+  }
+  
+
+body{
+    display: flex;
+    height: 100vh;
+}
+
+.calculatorContainer{
+    width: 40%;
+    height: 50%;
+    margin: auto;
+    background-color: brown;
+    border-radius: 0.7em;
+}
+
+.display{
+    background-color: var(--display);
+}
+/* grid de disply 72, 66, 63 */
+/* gris de primera row 87, 82, 79 */
+/* gris de números 112, 107, 104 */
+/* nranaja de operaciones 253, 141, 14 */
