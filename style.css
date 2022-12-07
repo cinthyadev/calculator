@@ -1,10 +1,11 @@
 :root {
     --display: rgb(72, 66, 63);
     --clearButton: rgb(87, 82, 79);
-    --numbers: rgb(112, 107, 104);
-    --operations: rgb(253, 141, 14);
-
-  }
+    --numbersButton: rgb(112, 107, 104);
+    --operationsColor: rgb(253, 141, 14);
+    --numbersColor: rgb(232, 227, 223);
+    --border-radious: 0.7em;
+}
   
 
 body{
@@ -16,13 +17,48 @@ body{
     width: 40%;
     height: 50%;
     margin: auto;
-    background-color: brown;
-    border-radius: 0.7em;
+    /* background-color: brown; */
+}
+.tableContainer{
+    width: 100%;
+    height: 100%;
+    background-color: var(--display);
+    color: var(--numbersColor);
+    border-radius: var(--border-radious);
+    text-align: center;
+    font-size: 20px;
+}
+
+td{
+    background-color: var(--numbersButton);
 }
 
 .display{
     background-color: var(--display);
+    height: 30%;
+    border-top-left-radius: var(--border-radious);
+    border-top-right-radius: var(--border-radious);
+    text-align: end;
+    padding: 20px;
+    font-size: 35px;
+    /*border: solid black;
+    border-width: thin; */
 }
+
+.firstRowButtons{
+    background-color: var(--clearButton);
+}
+.operationButton{
+    background-color: var(--operationsColor);
+}
+.equalsButton{
+    border-bottom-right-radius: var(--border-radious);
+}
+
+.zeroButton{
+    border-bottom-left-radius: var(--border-radious);
+}
+
 /* grid de disply 72, 66, 63 */
 /* gris de primera row 87, 82, 79 */
 /* gris de números 112, 107, 104 */
