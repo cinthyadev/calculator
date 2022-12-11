@@ -1,9 +1,13 @@
 class Calculator {
   constructor() {
-    // this.arg1 = arg1;
-    // this.arg2 = arg2;
     this.operation = null;
     this.operationCount = 0;
+    this.operatorsDict = {
+      "+": this.addition,
+      "-": this.substract,
+      x: this.multiply,
+      "/": this.divide,
+    };
   }
 
   addition = (number1, number2) => {
@@ -21,16 +25,17 @@ class Calculator {
   divide = (number1, number2) => {
     return number1 / number2;
   };
-  operatorsDict = {
-    "+": this.addition,
-    "-": this.substract,
-    x: this.multiply,
-    "/": this.divide,
-  };
+
   disableDot = () => {
     let dot = document.querySelector(".dot");
     dot.removeEventListener("click", populateDisplay);
     dot.classList.add("firstRowButtons");
+  };
+
+  enableDot = () => {
+    let dot = document.querySelector(".dot");
+    dot.addEventListener("click", populateDisplay);
+    dot.classList.remove("firstRowButtons");
   };
 
   getNumbersFromDisplay = (displayString) => {
@@ -40,10 +45,23 @@ class Calculator {
 
   performOperation = (displayString, operation) => {
     const prepareString = this.getNumbersFromDisplay(displayString);
-    const result = operation(
-      parseInt(prepareString[0]),
-      parseInt(prepareString[1])
-    );
+    let result = 0;
+    if (prepareString.length > 1) {
+      result = operation(
+        parseFloat(prepareString[0]),
+        parseFloat(prepareString[1])
+      );
+    } else {
+      result = operation(
+        parseFloat(prepareString[0]),
+        parseFloat(prepareString[0])
+      );
+    }
+    result = result % 1 == 0 ? result : result.toFixed(4);
+    if (result == Infinity) {
+      result = 0;
+      alert("Your attempt to divide by 0 shall not pass!!");
+    }
     return result;
   };
 }
@@ -54,60 +72,58 @@ let operationCount = calculator.operationCount;
 
 const populateDisplay = (item) => {
   let display = document.querySelector(".display").textContent;
-  console.log(display);
-  console.log("value");
   item = item.currentTarget;
   const value = item.innerText;
-  console.log(value);
-
+  const lastCharacterPosition = display.length - 1;
+  const lastCharacter = display.charAt(lastCharacterPosition);
   if (value in calculator.operatorsDict) {
-    const lastCharacterPosition = display.length - 1
-    const lastCharacter = display.charAt(lastCharacterPosition)
-    operationCount += 1;
-    if (lastCharacter in calculator.operatorsDict & value in calculator.operatorsDict){
-        console.log('lastCharacter');
-        console.log(lastCharacter);
-        console.log('value');
-        console.log(value);
-        console.log(display.substring(0, lastCharacterPosition));
-        const replaceOperator = `${display.substring(0, lastCharacterPosition)}${value}`
-        document.querySelector(".display").textContent = replaceOperator
+    calculator.enableDot();
+    if (
+      (lastCharacter in calculator.operatorsDict) &
+      (value in calculator.operatorsDict)
+    ) {
+      const replaceOperator = `${display.substring(
+        0,
+        lastCharacterPosition
+      )}${value}`;
+      document.querySelector(".display").textContent = replaceOperator;
+      return;
     }
+    operationCount += 1;
     if (operationCount > 1) {
-
-      console.log(operationCount);
       const result = calculator.performOperation(display, operationToPerform);
       document.querySelector(".display").textContent = `${result}`;
     }
-    
     operationToPerform = calculator.operatorsDict[value];
   }
 
-  if (display == "0") {
+  //   if the display is set to default (0) and the inserted value is not one of the positive/negative number operators, check for the following conditions
+  if ((display == "0") & (value != "x") & (value != "/")) {
+    // if first input is a dot, keep the initial 0 and add the dot
     if ((value == ".") & !display.includes(".")) {
       document.querySelector(".display").textContent += value;
       calculator.disableDot();
     } else {
+      // if the first input is not a dot, change the defualt 0 to the inserted number
       document.querySelector(".display").textContent = value;
     }
+    // if it is not the first number inserted, but it is a dot, add it and remove its event listener until another operation symbol is selected
   } else if (value == ".") {
-    if (!display.includes(".")) {
-      document.querySelector(".display").textContent += value;
-      calculator.disableDot();
-    } else {
-      document.querySelector(".display").textContent += value;
-    }
+    document.querySelector(".display").textContent += value;
+    calculator.disableDot();
+    //   if the display has a value different than the default and the selected value is not a dot, concatenate it.
   } else {
     document.querySelector(".display").textContent += value;
   }
 };
 
-const operate = (item) => {
-  item = item.currentTarget;
-  const  display = document.querySelector(".display").textContent;
-      const result = calculator.performOperation(display, operationToPerform);
-      document.querySelector(".display").textContent = result
-  console.log("equals");
+const operate = () => {
+  if (operationCount > 0) {
+    const display = document.querySelector(".display").textContent;
+    const result = calculator.performOperation(display, operationToPerform);
+    document.querySelector(".display").textContent = result;
+    operationCount = 0;
+  }
 };
 
 const numberElements = document.querySelectorAll(".number");
@@ -121,114 +137,3 @@ operatorElements.forEach((item) => {
 });
 
 document.querySelector(".equalsButton").addEventListener("click", operate);
-// document.querySelector('.number').addEventListener('click',initDocument)
-// console.log(document.querySelectorAll('.number'));
-// document.querySelectorAll('.number').addEventListener("click", populateDisplay);
-
-// const addition = (number1, number2) => {
-//     return number1 + number2;
-//   };
-
-//   const substract = (number1, number2) => {
-//     return number1 - number2;
-//   };
-
-//   const multiply = (number1, number2) => {
-//     return number1 * number2;
-//   };
-
-//   const divide = (number1, number2) => {
-//     return number1 / number2;
-//   };
-
-//   const operate = (command) => {
-//     const operatorsDict = {
-//         '+' : addition,
-//         '-' : substract,
-//         'x' : multiply,
-//         '/' : divide,
-//     }
-
-//     const x = document.getElementsByClassName("display")[0].innerText;
-//     const filterResult = Array.from(x.matchAll(/[^\(\)0-9(\.)]+/g));
-//     const numbers = Array.from(x.matchAll(/[0-9(\.)]+/g));
-
-//     console.log(filterResult.length);
-//     console.log(numbers.length);
-//     for (let index = 0; index < filterResult.length; index++) {
-//         const operation = filterResult
-//         // const element = filterResult[index];
-
-//         // console.log('element');
-//         // console.log(element);
-//         console.log(numbers[index][0])
-
-//     }
-
-//     // filterResult.map((result) => {
-//     //     const oper = result[0]
-//     //     const  numbers = x.split(oper)
-//     //     console.log(oper);
-//     //     console.log(numbers);
-//     // })
-//     // console.log(filterResult[0][0]);
-//   };
-//   // validate input
-
-//   const allClearHandle = () => {
-//     document.getElementsByClassName("display")[0].innerText = "0";
-//   };
-
-//   const populateDisplay = (value) => {
-//     const operators = ["x", "+", "-", "/"];
-
-//     let display = document.getElementsByClassName("display")[0].innerText;
-
-//     if (operators.includes(value)) {
-//       document.getElementsByClassName("display")[0].innerText += value;
-//     } else {
-//       if (display.length <= 7) {
-//         if (display == "0") {
-//           if (value == ".") {
-//             document.getElementsByClassName("display")[0].innerText += value;
-//           } else {
-//             document.getElementsByClassName("display")[0].innerText = value;
-//           }
-//         } else {
-//           if (display.includes(".") & (value == ".")) {
-//             alert("you already typed a decimal");
-//           } else {
-//             document.getElementsByClassName("display")[0].innerText += value;
-//           }
-//         }
-//       } else {
-//         alert(
-//           "Uops! your number is too big! It should be less than 7 characters long (including a dot)"
-//         );
-//       }
-//     }
-//   };
-
-// // devide by 0
-// // 6 + = 6+6
-// // multiple operators
-
-// done
-// // multiple dots
-// // chain operators
-// // use query selector
-// // multiple 0s
-
-
-
-// // Hi, Branko
-
-// // Due to personal inconveniences, I couldn't have the assignment ready for last saturday's session so I finished it and made sure it meets the requirements checked during the session, like the chaining, not dividing by 0 and duplicating a number when the equal sign is clicked without a second number.
-
-// // Heini-Maria to Everyone (6:29)
-// // https://github.com/Heini-Maria/Javascript-Calculator.git
-// // Zach to Everyone (6:34)
-// // https://github.com/ZachLee12/Simple-Calculator
-
-// // https://github.com/SnuggleTrouble/brainnest-2nd-javascript-project
-// // https://github.com/JayRenji/Basic-Calculator/blob/main/script.js
