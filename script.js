@@ -126,6 +126,11 @@ const operate = () => {
   }
 };
 
+const allClear = () => {
+    document.querySelector(".display").textContent = 0;
+    calculator.operationCount = 0;
+} 
+
 const numberElements = document.querySelectorAll(".number");
 numberElements.forEach((item) => {
   item.addEventListener("click", populateDisplay);
@@ -137,3 +142,4 @@ operatorElements.forEach((item) => {
 });
 
 document.querySelector(".equalsButton").addEventListener("click", operate);
+document.querySelector(".acButton").addEventListener("click", allClear);
