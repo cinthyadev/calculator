@@ -1,6 +1,6 @@
 # Basic calculator using vanilla JavaScript and CSS.
 
-live at the [following link]: (https://github.com/cinthyasjourney/calculator)
+live at the [following link](https://github.com/cinthyasjourney/calculator)
 
 It meets the following criteria: 
 * It doesn't accept multiple dots for a decimal number.
