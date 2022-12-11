@@ -17,7 +17,6 @@ body{
     width: 40%;
     height: 50%;
     margin: auto;
-    /* background-color: brown; */
 }
 .tableContainer{
     width: 100%;
@@ -41,8 +40,6 @@ td{
     text-align: end;
     padding: 20px;
     font-size: 35px;
-    /*border: solid black;
-    border-width: thin; */
 }
 
 .firstRowButtons{
@@ -58,8 +55,3 @@ td{
 .zeroButton{
     border-bottom-left-radius: var(--border-radious);
 }
-
-/* grid de disply 72, 66, 63 */
-/* gris de primera row 87, 82, 79 */
-/* gris de números 112, 107, 104 */
-/* nranaja de operaciones 253, 141, 14 */
