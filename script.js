@@ -4,8 +4,8 @@ class Calculator {
     this.operationCount = 0;
     this.operatorsDict = {
       "+": this.addition,
-      "-": this.substract,
-      x: this.multiply,
+      "-": this.substraction,
+      "x": this.multiply,
       "/": this.divide,
     };
   }
@@ -14,7 +14,7 @@ class Calculator {
     return number1 + number2;
   };
 
-  substract = (number1, number2) => {
+  substraction = (number1, number2) => {
     return number1 - number2;
   };
 
