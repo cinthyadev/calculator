@@ -58,9 +58,9 @@ class Calculator {
       );
     }
     result = result % 1 == 0 ? result : result.toFixed(4);
-    if (result == Infinity) {
+    if (result == Infinity | result == 'NaN') {
       result = 0;
-      alert("Your attempt to divide by 0 shall not pass!!");
+      alert("Your wierd behaviour shall not pass!!");
     }
     return result;
   };
